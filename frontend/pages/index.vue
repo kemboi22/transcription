@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import {buttonVariants} from "~/components/ui/button";
-
-definePageMeta({
-  layout: "home"
-})
 const features = [
   {
     name: "High Accuracy",
@@ -64,10 +60,10 @@ const works = [
           </p>
         </div>
         <div class="mx-auto w-full max-w-sm space-y-2">
-          <form class="flex space-x-2">
+          <div class="flex space-x-2">
             <Input type="email" placeholder="Enter your email"/>
-            <Button>Sign Up</Button>
-          </form>
+            <Button ><Icon name="devicon:google"/><span class="px-1">Sign in with Google</span></Button>
+          </div>
           <p class="text-xs text-gray-500 dark:text-gray-400">
             Sign up to get notified when we launch.
             <a class="underline underline-offset-2" href="#">
