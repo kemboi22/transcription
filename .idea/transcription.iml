@@ -10,6 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/app/whisper/whisper.cpp/examples/whisper.android/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/backend/app/whisper/whisper.cpp/examples/whisper.swiftui/whisper.swiftui.xcodeproj/project.xcworkspace/xcshareddata" />
       <excludeFolder url="file://$MODULE_DIR$/backend/app/whisper/whisper.cpp/examples/whisper.swiftui/whisper.swiftui.xcodeproj/xcshareddata" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/uploads" />
       <excludeFolder url="file://$MODULE_DIR$/frontend/.idea" />
     </content>
     <orderEntry type="inheritedJdk" />
