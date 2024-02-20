@@ -28,8 +28,6 @@ export const whisper = async (
   try {
     console.log('[whisper-node] Transcribing:', filePath, '\n')
 
-    // todo: combine steps 1 & 2 into sepparate function called whisperCpp (createCppCommand + shell)
-
     // 1. create command string for whisper.cpp
     const command = createCppCommand({
       filePath: path.normalize(`"${filePath}"`),

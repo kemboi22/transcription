@@ -3,6 +3,8 @@
 import { HttpContext } from '@adonisjs/core/http'
 import { downloadModel } from '../whisper/whisper-node/download.js'
 import { whisper } from '../whisper/whisper-node/index.js'
+import path from 'node:path'
+import { convertInputFileToWav } from '../whisper/whisper-node/convert_input_file_to_wav.js'
 
 export default class WhispersController {
   async whisperModels() {
@@ -65,8 +67,17 @@ export default class WhispersController {
     return await downloadModel(body.model)
   }
 
-  async transcribe() {
-    const transbribed = await whisper('test1.wav')
+  async transcribe({ request }: HttpContext) {
+    const audioFile = request.file('audio')
+    console.log(audioFile)
+    let filePath = path.resolve('test.mp4')
+    var outpath = ''
+    if (!filePath.endsWith('.wav')) {
+      outpath = filePath.substring(0, filePath.lastIndexOf('/') + 1) + 'test2.wav'
+      convertInputFileToWav(filePath, outpath)
+      filePath = outpath
+    }
+    const transbribed = await whisper(filePath)
     return transbribed
   }
 }
