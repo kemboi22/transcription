@@ -5,7 +5,9 @@ import { downloadModel } from '../whisper/whisper-node/download.js'
 import { whisper } from '../whisper/whisper-node/index.js'
 import path from 'node:path'
 import { convertInputFileToWav } from '../whisper/whisper-node/convert_input_file_to_wav.js'
-
+import app from '@adonisjs/core/services/app'
+import { cuid } from '@adonisjs/core/helpers'
+import fs from 'node:fs'
 export default class WhispersController {
   async whisperModels() {
     return [
@@ -68,14 +70,26 @@ export default class WhispersController {
   }
 
   async transcribe({ request }: HttpContext) {
-    const audioFile = request.file('audio')
-    console.log(audioFile)
-    let filePath = path.resolve('test.mp4')
-    var outpath = ''
+    const audioFile = request.file('audioFile')
+    if (audioFile === null) return { error: 'An error occurred' }
+    const fileName = `${cuid()}`
+    await audioFile.move(app.makePath('uploads'), {
+      name: `${fileName}.${audioFile.extname}`,
+    })
+    // @ts-ignore
+    let filePath = path.resolve(audioFile?.filePath)
+    var outputPath = ''
     if (!filePath.endsWith('.wav')) {
-      outpath = filePath.substring(0, filePath.lastIndexOf('/') + 1) + 'test2.wav'
-      convertInputFileToWav(filePath, outpath)
-      filePath = outpath
+      outputPath = filePath.substring(0, filePath.lastIndexOf('/') + 1) + `${fileName}.wav`
+      convertInputFileToWav(filePath, outputPath)
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log('An error occurred while deleting the file', err)
+        } else {
+          console.log('File deleted successfully')
+        }
+      })
+      filePath = outputPath
     }
     const transbribed = await whisper(filePath)
     return transbribed

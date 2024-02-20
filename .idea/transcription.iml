@@ -5,6 +5,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/app/whisper/whisper.cpp/bindings/java/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/app/whisper/whisper.cpp/examples/whisper.android/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/app/whisper/whisper.cpp/examples/whisper.swiftui/whisper.swiftui.xcodeproj/project.xcworkspace/xcshareddata" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/app/whisper/whisper.cpp/examples/whisper.swiftui/whisper.swiftui.xcodeproj/xcshareddata" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/.idea" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

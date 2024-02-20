@@ -17,4 +17,4 @@ router.get('/', async () => {
 
 router.get('/whisperModels', [WhispersController, 'whisperModels'])
 router.post('/downloadWhisperModels', [WhispersController, 'downloadWhisperModel'])
-router.get('/transcribe', [WhispersController, 'transcribe'])
+router.post('/transcribe', [WhispersController, 'transcribe'])

@@ -1,4 +1,44 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+import type {TranscriptionResponse} from "~/types";
+
+const body = ref({
+  file: ""
+})
+
+const transcribed = ref<TranscriptionResponse[]>([])
+const displayText = ref("")
+const isLoading = ref(false)
+const handleAudioInput = () => {
+  const audioFile = document.getElementById("audioFile")
+  audioFile?.click()
+}
+
+const handleInputAudioFile = (event: Event) => {
+  const file = event.target?.files[0]
+  body.value.file = file
+}
+
+const submit =  async () => {
+  isLoading.value = true
+  const formData = new FormData()
+  formData.append("audioFile", body.value.file)
+  const response = await $fetch<TranscriptionResponse[]>('http://localhost:3333/transcribe', {
+    method: "POST",
+    body: formData,
+  })
+  isLoading.value = false
+  transcribed.value = response
+  for (let i = 0; i < transcribed.value.length; i++) {
+    if (transcribed.value[i].speech.startsWith("["))
+    {
+      continue
+    }
+    displayText.value += transcribed.value[i].speech
+  }
+  console.log(displayText.value)
+}
+</script>
 
 <template>
   <div>
@@ -24,7 +64,7 @@
           </div>
           <div class="p-6">
             <div class="flex flex-col items-center space-y-2">
-              <label
+              <Label
                   class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex flex-col items-center gap-1 cursor-pointer"
                   for="file">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -34,36 +74,42 @@
                   <polyline points="17 8 12 3 7 8"></polyline>
                   <line x1="12" x2="12" y1="3" y2="15"></line>
                 </svg>
-                <span class="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-auto">
-              Choose a file
-            </span><span class="text-xs text-gray-500 dark:text-gray-400">
-              or drag and drop
-            </span>
+                <Button variant="outline" class="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-auto"
+                        @click.prevent="handleAudioInput">
+                  Choose a file
+                </Button>
+                <Input class="hidden" type="file" hidden="hidden" id="audioFile" @input="handleInputAudioFile($event)"/>
+                <span class="text-xs text-gray-500 dark:text-gray-400">
+                  or drag and drop
+                </span>
                 <div class="sr-only"></div>
-              </label>
+              </Label>
               <p class="text-xs text-gray-500 dark:text-gray-400">
                 Supported file types: mp3, wav, m4a, aac, ogg
               </p>
             </div>
             <div class="grid w-full gap-2">
-              <button
+              <Button @click.prevent="submit" :disabled="isLoading"
                   class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
-                Transcribe
-              </button>
+                <span class="space-x-3">
+                  {{ isLoading ? '' : 'Transcribe' }}
+                  <Loader v-if="isLoading"/>
+                </span>
+              </Button>
             </div>
           </div>
         </div>
         <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
-          <div class="flex flex-col space-y-1.5 p-6"><h3
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3
               class="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">Transcribed Text</h3>
           </div>
           <div class="p-6">
             <div class="grid w-full gap-1.5">
-              <textarea
+              <Textarea v-model="displayText"
                   class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  id="file" placeholder="Transcribed text will appear here." rows="8" readonly="">
-
-              </textarea>
+                  id="file" placeholder="Transcribed text will appear here." rows="8">
+              </Textarea>
             </div>
             <div class="flex w-full gap-2 items-center">
               <button
