@@ -1,11 +1,29 @@
 <script lang="ts" setup>
 
 import type {TranscriptionResponse} from "~/types";
+if (process.client)
+{
+  const ws = new WebSocket('ws://localhost:4000/')
+
+  ws.onopen = ( event ) => {
+    console.log("Connected" + event)
+  }
+  ws.onmessage = (message) => {
+    console.log(message)
+  }
+  const ws1 = new WebSocket('ws://localhost:4000/home')
+
+  ws1.onopen = ( event ) => {
+    console.log("Connected" + event)
+  }
+  ws1.onmessage = (message) => {
+    console.log(message)
+  }
+}
 
 const body = ref({
   file: ""
 })
-
 const transcribed = ref<TranscriptionResponse[]>([])
 const displayText = ref("")
 const isLoading = ref(false)

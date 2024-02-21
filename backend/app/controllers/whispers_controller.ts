@@ -1,13 +1,14 @@
 // import type { HttpContext } from '@adonisjs/core/http'
 
-import { HttpContext } from '@adonisjs/core/http'
-import { downloadModel } from '../whisper/whisper-node/download.js'
-import { whisper } from '../whisper/whisper-node/index.js'
+import {HttpContext} from '@adonisjs/core/http'
+import {downloadModel} from '../whisper/whisper-node/download.js'
+import {whisper} from '../whisper/whisper-node/index.js'
 import path from 'node:path'
-import { convertInputFileToWav } from '../whisper/whisper-node/convert_input_file_to_wav.js'
+import {convertInputFileToWav} from '../whisper/whisper-node/convert_input_file_to_wav.js'
 import app from '@adonisjs/core/services/app'
-import { cuid } from '@adonisjs/core/helpers'
+import {cuid} from '@adonisjs/core/helpers'
 import fs from 'node:fs'
+
 export default class WhispersController {
   async whisperModels() {
     return [
@@ -91,7 +92,6 @@ export default class WhispersController {
       })
       filePath = outputPath
     }
-    const transbribed = await whisper(filePath)
-    return transbribed
+    return await whisper(filePath)
   }
 }

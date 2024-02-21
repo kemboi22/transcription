@@ -55,13 +55,15 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^20.1.0",
     "@types/shelljs": "^0.8.15",
+    "@types/ws": "^8.5.10",
     "@vinejs/vine": "^1.7.1",
     "luxon": "^3.4.4",
     "mysql2": "^3.9.1",
     "nodemon": "^3.0.3",
     "readline-sync": "^1.4.10",
     "reflect-metadata": "^0.2.1",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "ws": "^8.16.0"
   },
   "eslintConfig": {
     "extends": "@adonisjs/eslint-config/app"

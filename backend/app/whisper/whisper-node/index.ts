@@ -35,13 +35,12 @@ export const whisper = async (
       modelPath: options?.modelPath ? `"${options?.modelPath}"` : undefined,
       options: options?.whisperOptions,
     })
-    console.log(command)
     // shell.cd('app/whisper/whisper.cpp')
 
     // 2. run command in whisper.cpp directory
     // todo: add return for continually updated progress value
-    const transcript = shell.exec(command, options?.shellOptions)
 
+    const transcript = shell.exec(command, options?.shellOptions)
     // 3. parse whisper response string into array
     return await parseTranscript(transcript)
   } catch (error) {
